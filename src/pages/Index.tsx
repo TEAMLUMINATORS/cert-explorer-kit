@@ -1,11 +1,16 @@
 import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Shield, Lock, Hash, Code2, FileText, Globe } from "lucide-react";
+import { Shield, Lock, Hash, Code2, FileText, Globe, RefreshCw, Award, Key } from "lucide-react";
 import { CertificateAnalyzer } from "@/components/ssl-tools/CertificateAnalyzer";
 import { TLSChecker } from "@/components/ssl-tools/TLSChecker";
 import { HashGenerator } from "@/components/ssl-tools/HashGenerator";
 import { Base64Tool } from "@/components/ssl-tools/Base64Tool";
+import { CertificateTransparency } from "@/components/ssl-tools/CertificateTransparency";
+import { PKCSConverter } from "@/components/ssl-tools/PKCSConverter";
+import { CertificateGenerator } from "@/components/ssl-tools/CertificateGenerator";
+import { CSRManager } from "@/components/ssl-tools/CSRManager";
+import { PEMParser } from "@/components/ssl-tools/PEMParser";
 
 const Index = () => {
   const tools = [
@@ -22,6 +27,41 @@ const Index = () => {
       description: 'Test SSL/TLS configurations and supported protocols',
       icon: Globe,
       component: TLSChecker
+    },
+    {
+      id: 'ct-logs',
+      name: 'Certificate Transparency',
+      description: 'Search Certificate Transparency logs in real-time',
+      icon: Shield,
+      component: CertificateTransparency
+    },
+    {
+      id: 'pkcs-converter',
+      name: 'PKCS Converter',
+      description: 'Convert between PKCS#7, PKCS#12, and PEM formats',
+      icon: RefreshCw,
+      component: PKCSConverter
+    },
+    {
+      id: 'cert-generator',
+      name: 'Certificate Generator',
+      description: 'Generate self-signed certificates with custom parameters',
+      icon: Award,
+      component: CertificateGenerator
+    },
+    {
+      id: 'csr-manager',
+      name: 'CSR Manager',
+      description: 'Generate and manage RSA/ECC Certificate Signing Requests',
+      icon: Key,
+      component: CSRManager
+    },
+    {
+      id: 'pem-parser',
+      name: 'PEM Parser',
+      description: 'Parse X.509, PKCS#7, and CSR data in PEM format',
+      icon: Award,
+      component: PEMParser
     },
     {
       id: 'hash',
@@ -62,16 +102,17 @@ const Index = () => {
       <main className="container mx-auto px-4 py-8">
         <Tabs defaultValue="certificate" className="space-y-6">
           {/* Tools Navigation */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {tools.map((tool) => {
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {tools.map((tool, index) => {
               const IconComponent = tool.icon;
               return (
                 <TabsList key={tool.id} className="h-auto p-0">
                   <TabsTrigger
                     value={tool.id}
-                    className="w-full h-auto p-4 flex flex-col items-center space-y-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                    className="w-full h-auto p-4 flex flex-col items-center space-y-2 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all duration-300 hover:scale-105 hover:shadow-lg animate-fade-in"
+                    style={{ animationDelay: `${index * 100}ms` }}
                   >
-                    <IconComponent className="h-5 w-5" />
+                    <IconComponent className="h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
                     <div className="text-center">
                       <div className="font-medium text-sm">{tool.name}</div>
                       <div className="text-xs opacity-80 hidden md:block">
